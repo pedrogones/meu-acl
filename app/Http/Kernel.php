@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CaptureException;
 use App\Http\Middleware\PermissionAcess;
 use App\Http\Middleware\RoleAccess;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -20,6 +21,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrustProxies::class,
         \Illuminate\Http\Middleware\HandleCors::class,
         \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
+       // \App\Http\Middleware\CaptureException::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,

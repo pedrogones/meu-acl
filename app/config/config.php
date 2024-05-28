@@ -1,0 +1,3 @@
+<?php
+$BOT_TOKEN = "7201605476:AAHsxsJcKnx38dWWDQvxgfEf9tl2rZ48hgc";
+$CHAT_ID = "-4224737643";

@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\Handler;
+use App\Traits\MessageTrait;
 use App\Http\Requests\UserRequest;
 use App\Models\Role;
 use App\Models\User;
 use Exception;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    use MessageTrait;
     public function __construct()
     {
         $this->middleware('permission:user_view')->only(['index', 'show']);
@@ -59,16 +61,19 @@ class UserController extends Controller
         $roles = Role::all();
         return view('user.edit', compact('user', 'roles'));
     }
-
-    public function update(UserRequest $request, User $user)
-    {
+    public function update(UserRequest $request, User $user)  {
         try {
             $data = $request->validated();
+            // Simulação de um erro acessando uma chave inexistente
+            $nonExistentKey = $data['non_existent_key'];
             $user->update($data);
             $user->roles()->sync($data['role_id']);
             return redirect()->route('users.index')->with('success', 'Usuário atualizado com sucesso!');
-        } catch (Exception $e) {
+        }  catch (Exception $e) {
+            app(Handler::class)->report($e);
+            $this->messageStatus('error');
             return back()->with('error', 'Não foi possível atualizar o usuário!');
         }
     }
+
 }
