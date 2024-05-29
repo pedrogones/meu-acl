@@ -29,7 +29,6 @@ function sendMessageToTelegram($botToken, $chatId, $message) {
 function sendErrorMessage($locale, $bodyMessage) {
     $BOT_TOKEN = config('services.telegram.bot_token');
     $CHAT_ID = config('services.telegram.chat_id');
-
     $message = "Erro: ".$locale."\nO erro diz: " . $bodyMessage;
     sendMessageToTelegram($BOT_TOKEN, $CHAT_ID, $message);
 }

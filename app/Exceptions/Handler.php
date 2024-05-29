@@ -47,12 +47,8 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         $this->reportable(function (Throwable $e) {
-
+            //
         });
     }
-    public function report($e){
-        require_once app_path('Helpers/telegramHelper.php');
-        // Envia a mensagem de erro para o Telegram
-        sendErrorMessage("Método update, classe UserController", $e->getMessage());
-    }
+  
 }

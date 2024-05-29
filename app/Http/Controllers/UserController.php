@@ -8,6 +8,7 @@ use App\Http\Requests\UserRequest;
 use App\Models\Role;
 use App\Models\User;
 use Exception;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -58,7 +59,7 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        $roles = Role::all();
+      $roles = Role::all();
         return view('user.edit', compact('user', 'roles'));
     }
     public function update(UserRequest $request, User $user)  {
@@ -70,8 +71,7 @@ class UserController extends Controller
             $user->roles()->sync($data['role_id']);
             return redirect()->route('users.index')->with('success', 'Usuário atualizado com sucesso!');
         }  catch (Exception $e) {
-            app(Handler::class)->report($e);
-            $this->messageStatus('error');
+            Log::error("Ocorreu algum problema na assinatura do projeto: A assinatura não confere com nenhum dos participantes do documento");
             return back()->with('error', 'Não foi possível atualizar o usuário!');
         }
     }
