@@ -62,7 +62,7 @@
                             ])>Posts</a>
 
                            @endcan
-                           @if (auth()->user()->hasRole('Super Admin'))
+                           @if (auth()->user()->hasPermission('permission_view'))
                            <a href="{{ route('roles.index') }}" @class([
                             'rounded-md px-3 py-2 text-base font-medium',
                             'bg-gray-900 text-white' => request()->routeIs('roles.*') ,

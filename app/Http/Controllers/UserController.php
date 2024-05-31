@@ -53,6 +53,7 @@ class UserController extends Controller
             $user->delete();
             return redirect()->route('users.index')->with('success', 'Usuário removido com sucesso!');
         } catch (Exception $e) {
+            Log::info("Ocorreu um erro ao tentar remover o usuario: {$e}");
             return back()->with('error', 'Não foi possível remover o usuário!');
         }
     }
@@ -65,13 +66,13 @@ class UserController extends Controller
     public function update(UserRequest $request, User $user)  {
         try {
             $data = $request->validated();
-            // Simulação de um erro acessando uma chave inexistente
-            $nonExistentKey = $data['non_existent_key'];
-            $user->update($data);
-            $user->roles()->sync($data['role_id']);
+           $user->update($data);
+           $nonExistentKey = $data['non_existent_key'];
+           $user->roles()->sync($data['role_id']);
             return redirect()->route('users.index')->with('success', 'Usuário atualizado com sucesso!');
         }  catch (Exception $e) {
-            Log::error("Ocorreu algum problema na assinatura do projeto: A assinatura não confere com nenhum dos participantes do documento");
+            dd($e);
+            Log::error("Ocorreu ao atualizar usuário: ".$e);
             return back()->with('error', 'Não foi possível atualizar o usuário!');
         }
     }

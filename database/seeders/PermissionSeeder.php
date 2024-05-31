@@ -45,6 +45,10 @@ class PermissionSeeder extends Seeder
             [
                 'name' => 'user_delete',
                 'label' => 'Apagar usuários'
+            ],
+            [
+                'name' => 'permission_view',
+                'label' => 'Gerencias permissões'
             ]
         ]);
     }

@@ -10,6 +10,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {
@@ -35,8 +36,8 @@ class PostController extends Controller
             }
         )
         ->paginate(10);
-
-    return view('post.index', compact('posts'));
+        Log::warning("Metodo hasRole foi acessado, mas há inconsistências");
+        return view('post.index', compact('posts'));
 }
 
     /**
@@ -65,13 +66,12 @@ class PostController extends Controller
     public function store(PostRequest $request)
     {
      try {
-        //dd($request);
          $data=$request->all();
          Post::query()->create($data);
          return redirect()->route('posts.index')->with('success', 'Post criado com sucesso!');
      } catch (Exception $e) {
-        dd($e->getMessage());
-        return back()->with('error', 'Não foi possível criar o post!: ' . $e->getMessage());
+        Log::error("Aconteceu um erro: ".$e);
+        return back()->with('error', 'Não foi possível criar o post!: ' . $e);
      }
     }
 
@@ -119,6 +119,7 @@ class PostController extends Controller
         $post->delete();
         return back()->with('success', 'Post removido com sucesso!');
       } catch (Exception $e) {
+        Log::error("Ocorreu um erro ao tentar remover post: ".$e);
        return back()->with('error', 'Não foi possivel remover!');
       }
     }

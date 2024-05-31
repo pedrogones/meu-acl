@@ -6,6 +6,7 @@ use App\Models\Permission;
 use App\Models\Role;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class PermissionController extends Controller
 {
@@ -25,12 +26,12 @@ class PermissionController extends Controller
     {
        $permissions = collect($request->permissions);
        $permissionsId = $permissions->filter(fn($permission)=>$permission === 'on')->keys();
-    try {
-        $role->permissions()->sync($permissionsId);
-        return redirect()->route('roles.index')->with('sucess', 'Permissões atualizadas com sucesso!');
-
+       try {
+           $role->permissions()->sync($permissionsId);
+           return redirect()->route('roles.index')->with('sucess', 'Permissões atualizadas com sucesso!');
     } catch (Exception $e) {
-       return redirect()->route('roles.permissions.index', $role)->with('error', "Ocorreu um erro!");
+            Log::error("Aconteceu um erro ao tentar salvar uma nova permissão: ".$e);
+            return redirect()->route('roles.permissions.index', $role)->with('error', "Ocorreu um erro!");
     }
     }
 
