@@ -26,5 +26,8 @@ Route::group(['middleware' => ['auth', 'permission:post_view']], function () {
 });
 Route::resource('users', UserController::class);
 Route::resource('posts', PostController::class);
-Route::resource('roles', RoleController::class);
-Route::resource('roles.permissions', PermissionController::class);
+Route::group(['middleware' => ['auth', 'permission:permission_view']], function(){
+    Route::resource('roles', RoleController::class);
+    Route::resource('roles.permissions', PermissionController::class);
+
+});

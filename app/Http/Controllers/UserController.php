@@ -67,7 +67,6 @@ class UserController extends Controller
         try {
             $data = $request->validated();
            $user->update($data);
-           $nonExistentKey = $data['non_existent_key'];
            $user->roles()->sync($data['role_id']);
             return redirect()->route('users.index')->with('success', 'Usuário atualizado com sucesso!');
         }  catch (Exception $e) {
